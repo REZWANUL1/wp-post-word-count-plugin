@@ -14,8 +14,20 @@
 * Text Domain: pwc-by-rez
 * Domain Path: /languages
 */
-add_action('wp_head', 'welcome_message_word_count');
-function welcome_message_word_count()
+
+add_action('plugin_loaded', 'pwcbr_loadtextdomain');
+function pwcbr_loadtextdomain()
 {
-   echo '<p>Hello,Count your wordpress words with this plugin</p>';
+   load_plugin_textdomain('pwc-by-rez', false, dirname(__FILE__) . "/languages");
+}
+
+add_filter('the_content', 'pwcbr_count_words');
+
+function pwcbr_count_words($content)
+{
+   $stripped_content = strip_tags($content);
+   $words = str_word_count($stripped_content);
+   $label = __('Total number of words', 'pwc-by-rez');
+   $content .= sprintf('<h2>%s: %s</h2>', $label, $words);
+   return $content;
 }
