@@ -28,6 +28,8 @@ function pwcbr_count_words($content)
    $stripped_content = strip_tags($content);
    $words = str_word_count($stripped_content);
    $label = __('Total number of words', 'pwc-by-rez');
-   $content .= sprintf('<h2>%s: %s</h2>', $label, $words);
+   $label = apply_filters('word_count_heading', $label);
+   $tag = apply_filters('word_count_tag', 'h2');
+   $content .= sprintf('<%s>%s: %s</#>', $tag, $label, $words, $tag);
    return $content;
 }
