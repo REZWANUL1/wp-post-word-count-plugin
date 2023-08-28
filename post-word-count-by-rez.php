@@ -25,11 +25,31 @@ add_filter('the_content', 'pwcbr_count_words');
 
 function pwcbr_count_words($content)
 {
+
    $stripped_content = strip_tags($content);
    $words = str_word_count($stripped_content);
    $label = __('Total number of words', 'pwc-by-rez');
    $label = apply_filters('word_count_heading', $label);
    $tag = apply_filters('word_count_tag', 'h2');
    $content .= sprintf('<%s>%s: %s</#>', $tag, $label, $words, $tag);
+   return $content;
+}
+
+add_filter('the_content', 'pwcbr_count_words_timing');
+
+function pwcbr_count_words_timing($content)
+{
+   $stripped_content = strip_tags($content);
+   $words = str_word_count($stripped_content);
+   $reading_minute = floor($words / 200);
+   $reading_seconds = floor($words % 200 / (200 / 60));
+   $is_visible = apply_filters('wordcuont_display_readingtime', 1);
+   if ($is_visible) {
+      $label = __('Total reading time', 'pwc-by-rez');
+      $label = apply_filters('word_count_time', $label);
+      $tag = apply_filters('word_count_time_tag', 'h4');
+      $content .= sprintf('<%s>%s: %s minutes %s seconds</#>', $tag, $label, $reading_minute, $reading_seconds, $tag);
+      return $content;
+   }
    return $content;
 }
