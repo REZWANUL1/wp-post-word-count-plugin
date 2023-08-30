@@ -14,7 +14,9 @@
 * Text Domain: pwc-by-rez
 * Domain Path: /languages
 */
-
+if (!defined('ABSPATH')) {
+   exit;
+}
 add_action('plugin_loaded', 'pwcbr_loadtextdomain');
 function pwcbr_loadtextdomain()
 {
@@ -49,7 +51,7 @@ function pwcbr_count_words_timing($content)
       $label = apply_filters('word_count_time', $label);
       $tag = apply_filters('word_count_time_tag', 'h4');
 
-      
+
       $content .= sprintf('<%s>%s: %s minutes %s seconds</#>', $tag, $label, $reading_minute, $reading_seconds, $tag);
       return $content;
    }
