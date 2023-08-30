@@ -21,8 +21,8 @@ function pwcbr_loadtextdomain()
    load_plugin_textdomain('pwc-by-rez', false, dirname(__FILE__) . "/languages");
 }
 
+//? getting the words and counting them
 add_filter('the_content', 'pwcbr_count_words');
-
 function pwcbr_count_words($content)
 {
 
@@ -35,8 +35,8 @@ function pwcbr_count_words($content)
    return $content;
 }
 
+//? find post word reading time
 add_filter('the_content', 'pwcbr_count_words_timing');
-
 function pwcbr_count_words_timing($content)
 {
    $stripped_content = strip_tags($content);
@@ -48,6 +48,8 @@ function pwcbr_count_words_timing($content)
       $label = __('Total reading time', 'pwc-by-rez');
       $label = apply_filters('word_count_time', $label);
       $tag = apply_filters('word_count_time_tag', 'h4');
+
+      
       $content .= sprintf('<%s>%s: %s minutes %s seconds</#>', $tag, $label, $reading_minute, $reading_seconds, $tag);
       return $content;
    }
